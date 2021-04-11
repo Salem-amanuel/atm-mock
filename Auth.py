@@ -101,9 +101,9 @@ def bankOperation(user):
 
 def withdrawalOperation():
     
-    selectedOption = int(input('please select an option'))
-    selectedOption1 = int(input('How much would you like to withdraw'))
-    selectedOption2 = int(input('please select an option'))
+    selectedOption = int(input('please select an option') )
+    selectedOption1 = int(input('How much would you like to withdraw') )
+    selectedOption2 = int(input('please select an option') )
           
     print(selectedOption)
     print('1. $100')
@@ -126,14 +126,14 @@ def withdrawalOperation():
         print('Invalid option selected, please try again')
 
          
-    selectionOption4 = int(input('Take your cash! Exit!'))
+    selectionOption4 = int(input('Take your cash! Exit!') )
 
 
 
-def depositOperation():
+def depositOperation(selectedOption):
     
-    selectedOption1 = int(input('How much would you like to Deposit'))
-    selectedOption2 = int(input('please select an option'))
+    selectedOption1 = int(input('How much would you like to Deposit') )
+    selectedOption2 = int(input('please select an option') )
 
     print(selectedOption)
         
