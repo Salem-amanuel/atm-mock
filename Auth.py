@@ -10,8 +10,14 @@
 
 #Initializing the system 
 import random 
+import Validation
+import Database
+from getpass import getpass 
+#database = {
+#   xxxxxxxxxxx:['Eyerusalem', 'Woldeamanuel', 'eyerusalem_woldeamanuel@yahoo.com', 'password']
+#}  
 
-database = {}  #dictionary
+#dictionary
 
 import datetime
 datetime = datetime.datetime.now()
@@ -34,23 +40,38 @@ def init():
         print("You have selected invalid option")
         init()
 
-def generationAccountNumber():
-
-    return random.randrange(1111111111,9999999999)
-
-
         
 def login():
 
     print("***** Login *****")
-    print("Choose bank operation")
-    print('Invalid account or password')
-
-    accountNumberFromUser = int(input("What is your account number? \n"))
-    password = input("What is your password? \n")
-       
-    login()
     
+    account_number_from_user = input("What is your account number? \n")
+
+    is_valid_account_number = Validation.account_number_validation(account_number_from_user)
+
+    if is_valid_account_number:
+
+        password = getpass("What is your password? \n")
+        usee = databade.authenticate_user(account_number_from_user, password)
+        if user:
+            bank_operation(user)
+
+        #for account_number, user_details in database.items():
+           # if account_number == int(account_number_from_user):
+              #  if user_details[3] == password:
+                 #   bank_operation(user_details)
+    
+        print('Invalid account or password') 
+        login()
+
+    else:
+        print("Account number Invalid: check that you have up to 10 digits and only integers")
+
+        int()
+
+
+
+
 
 def register(): 
     print("****** Register ******")
@@ -58,140 +79,154 @@ def register():
     email = input("What is your email address? \n")
     first_name = input("What is your first name? \n")
     last_name = input("What is your last name? \n") 
-    password = input("create a password for yourself \n")
+    password = getpass("create a password for yourself \n")
 
-    accountNumber = generationAccountNumber()
+    account_number = generation_account_number()
 
-    database[accountNumber] = [first_name, last_name, email, password]
-
-    print("Your Account has been created")
-    print("*********************")
-    print("Your account number is: %d" % accountNumber)
-    print("keep your account number safe")
-    print("*********************")
-
-    login()
-
-    return database
-
-def bankOperation(user):
-
-    print("Welcome %s %s " % (user[0], user[1] ) )
-    print("(1) deposit, (2) withdrawal, (3) logout, (4) exit")
-
-    selectedoption = input("What would you like to do? (1) deposit (2) withdrawal (3) complaint (4) logout (5) exit \n")
+    is_user_created = Database.create(account_number, first_name, last_name, email, password
     
-    if selectedoption == 1:
+    if is_user_created:
+        print("Your Account has been created")
+        print("*********************")
+        print("Your account number is: %d" % accountNumber)
+        print("keep your account number safe")
+        print("*********************")
+
+        login()
+
+    else:
+        print("Something went wrong please try again")
+        register()
+
+
+def bank_operation(user):
+
+    print("Welcome %s %s " % (user[0], user[1]))
+    
+    selected_option = input("What would you like to do? (1) deposit (2) withdrawal (3)Complaint (4) logout (5) exit \n")
+    
+    if selected_option == 1:
             
-        depositOperation("account balance")
-    elif selectedoption == 2:
-           
-        withdrawalOperation("account balance")
-    elif selectedoption == 3:
+        deposit_operation()
+    elif selected_option == 2:
+
+        withdrawal_operation() 
+    elif selected_option == 3:
+
+        Complaint()
+    elif selected_option == 4:
              
         logout()
-    elif selectedoption == 4:
+    elif selected_option == 5:
            
         exit()
     else:
-        bankOperation(user)
-        print("Invalid option selected")
 
+        print("Invalid option selected")
+        bank_operation(user)
 
 
 def withdrawalOperation():
-    
-    selectedOption = int(input('please select an option') )
-    selectedOption1 = int(input('How much would you like to withdraw') )
-    selectedOption2 = int(input('please select an option') )
-          
+    Print("Withdrawal Operation")
+    selected_option1 = int(input('please select an option'))
+    selected_option2 = int(input('How much would you like to withdraw'))
+    selected_option3 = int(input('please select an option'))
+    selection_option4 = int(input('Take your cash! Exit!'))
+
     print(selectedOption)
     print('1. $100')
     print('2. $500')
     print('3. $1000')
          
         
-    if(selectedOption1 == 1):
+    if(selected_option1 == 1):
 
-        print('you selected %s' % selectedOption)
+        print('you selected %s' % selected_option)
 
-    elif(selectedOption == 2):
-        print('you selected %s' % selectedOption)
+    elif(selected_option == 2):
+        print('you selected %s' % selected_option)
             
-    elif(selectedOption == 3):
-        print('you selected %s' % selectedOption)
+    elif(selected_option == 3):
+        print('you selected %s' % selected_option)
 
         
     else:
         print('Invalid option selected, please try again')
 
          
-    selectionOption4 = int(input('Take your cash! Exit!') )
-
-
-
-def depositOperation(selectedOption):
+   
+def deposit_operation(selected_option):
+    print("Withdrawal Operation")
+    selected_option1 = int(input('How much would you like to Deposit'))
+    selected_option2 = int(input('please select an option'))
     
-    selectedOption1 = int(input('How much would you like to Deposit') )
-    selectedOption2 = int(input('please select an option') )
 
-    print(selectedOption)
+    print(selected_option)
         
-    print('1. $1000')
-    print('2. $1500')
-    
-    print('3. $2000')
-    selectedOption3 = int(input("please select an option") )
-    if(selectedOption1 == 1):
+    print('(1) $1000')
+    print('(2) $1500')
+    print('(3) $2000')
 
-        print('you selected %s' % selectedOption)
+    selected_option3 = int(input("please select an option"))
 
-    elif(selectedOption == 2):
-        print('you selected %s' % selectedOption)
+    if(selected_option1 == 1):
+
+        print('you selected %s' % selected_option)
+
+    elif(selected_option == 2):
+        print('you selected %s' % selected_option)
             
-    elif(selectedOption == 3):
-        print('you selected %s' % selectedOption)
-
-        
+    elif(selected_option == 3):
+        print('you selected %s' % selected_option)
+    
     else:
         print('Invalid option selected, please try again')
 
-         
-    selectionOption4 = int(input('Insert cash! Exit!'))
-
-
-
+    selected_option4 = int(input('Insert cash! Exit!'))
+     
+   
 def complaint():
 
-     selectedOption1 = int(input('What issue would you like to report'))
-     selectedOption2 = int(input('please select an option'))
+    selected_option1 = int(input('What issue would you like to report'))
+    selected_option2 = int(input('please select an option'))
+    selected_option3 = int(input('please select an option'))
+    selected_option4 = int(input('Thank you for contacting us! Exit!'))
 
-               
-     print(selectedOption)
-        
-     print('1. I can not make a withdrawal')
-     print('2. I can not make a deposit')
+          
+    print(selected_option)   
+    print('1. I can not make a withdrawal')
+    print('2. I can not make a deposit')
     
-     selectedOption3 = int(input('please select an option'))
+    selected_option3 = int(input('please select an option'))
 
-     if(selectedOption1 == 1):
-        print('you selected %s' % selectedOption)
+    if(selected_option1 == 1):
+        print('you selected %s' % selected_option)
 
-     elif(selectedOption == 2):
-        print('you selected %s' % selectedOption)
-            
-     elif(selectedOption == 3):
-        print('you selected %s' % selectedOption)
-
-        
-     else:
+    elif(selected_option == 2):
+        print('you selected %s' % selected_option)
+              
+    else:
         print('Invalid option selected, please try again')
 
-     selectionOption4 = int(input('Thank you for contacting us! Exit!'))
+    selected_option4 = int(input('Thank you for contacting us! Exit!'))
 
-        
+def generationAccountNumber():
+    return random.randrange(1111111111,9999999999)
+
+
+def set_current_balance(user_details, balance):
+    user_details[4] = balance
+
+
+def get_current_balance(user_details):
+    return user_details[4]
+    
 def logout():
     login()
+
+
+
+
 
 
 #### ACTUAL BANKING SYSTEM ####
