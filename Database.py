@@ -156,9 +156,6 @@ def authenticate_user(account_number, password)
 
 #print (does_account_number_exist(1111111111))
 
-
-# create(1111111111['Eyerusalem', 'Woldeamanuel', 'eyerusalem_woldeamanuel@yahoo.com', 'password'])
-# print(read(1111111111))
 # print(read(['one', 'two']))
 
 
