@@ -25,21 +25,21 @@ def create_record(account_number, first_name, last_name, email, password):
     compilation_state = False
 
     try:
-         f = open(user_db_path) * str((user_account_number) + ".txt", "r"))
+         f = open(user_db_path) + str((user_account_number) + ".txt", "r")
        
     except FileExistsError:
 
-        does_file_contain_data = read(user_db_path) + str(user_account_number) + ".txt"))
-        if not does_file_contain_data
+        does_file_contain_data = read(user_db_path) + str((user_account_number) + ".txt")
+        if not does_file_contain_data:
             delete(user_account_number)
         
     else:
 
-         f.write(str(user_data)):
+         f.write(str(user_data))
          completion_state = True
 
     finally:
-        f.close():
+        f.close()
 
         return completion_state
 
@@ -147,9 +147,9 @@ def withdrawal_operation(account_number,balance):
     try:
         for user in users:
             print(user_list)
-    except FileNotFoundError
+    except FileNotFoundError:
         print("File not found")
-    else 
+    else:
         if int(user_list) > balance
 
         try:

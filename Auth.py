@@ -1,10 +1,3 @@
-#register 
-# - first name, last name, password, email
-# - generate user account
-
-
-#login
-# - account number and pasword 
 
 #bank operations
 
@@ -13,11 +6,6 @@ import random
 import Validation
 import Database
 from getpass import getpass 
-#database = {
-#   xxxxxxxxxxx:['Eyerusalem', 'Woldeamanuel', 'eyerusalem_woldeamanuel@yahoo.com', 'password']
-#}  
-
-#dictionary
 
 import datetime
 datetime = datetime.datetime.now()
@@ -53,23 +41,15 @@ def login():
 
         password = getpass("What is your password? \n")
         usee = databade.authenticate_user(account_number_from_user, password)
-        if user:
-            bank_operation(user)
 
-        #for account_number, user_details in database.items():
-           # if account_number == int(account_number_from_user):
-              #  if user_details[3] == password:
-                 #   bank_operation(user_details)
-    
-        print('Invalid account or password') 
-        login()
+        if user:
+            auth_session_created = database.create_auth_session(account_number_from_user)
+            bank_operation(user, account_number_from_user)
 
     else:
         print("Account number Invalid: check that you have up to 10 digits and only integers")
 
         int()
-
-
 
 
 
@@ -99,131 +79,90 @@ def register():
         register()
 
 
-def bank_operation(user):
+
+def generationAccountNumber():
+    return random.randrange(1111111111,9999999999)
+
+
+
+def bank_operation(user_details, account_number_from_user):
 
     print("Welcome %s %s " % (user[0], user[1]))
     
     selected_option = input("What would you like to do? (1) deposit (2) withdrawal (3)Complaint (4) logout (5) exit \n")
     
     if selected_option == 1:
-            
-        deposit_operation()
+       balance(user_details)
+       bank_operation(user_details, account_number_from_user)
+     
     elif selected_option == 2:
+        deposit( user_details, account_number_from_user )
+        bank_operation(user_details, account_number_from_user)
 
-        withdrawal_operation() 
     elif selected_option == 3:
-
-        Complaint()
+        withdrawal( user_details, account_number_from_user )
+        bank_operation(user_details, account_number_from_user)
+ 
     elif selected_option == 4:
-             
-        logout()
-    elif selected_option == 5:
-           
-        exit()
-    else:
+        Complaint()
+        bank_operation(user_details, account_number_from_user)
 
+    elif selected_option == 5:
+        logout(account_number_from_user)
+
+    elif selected_option == 6:
+        print("Thank you %s %s. We look forward to seeing you again." % (user[0], user[1]))
+        logout()
+        exit()   
+        
+    else:
         print("Invalid option selected")
         bank_operation(user)
 
 
-def withdrawalOperation():
-    Print("Withdrawal Operation")
-    selected_option1 = int(input('please select an option'))
-    selected_option2 = int(input('How much would you like to withdraw'))
-    selected_option3 = int(input('please select an option'))
-    selection_option4 = int(input('Take your cash! Exit!'))
-
-    print(selectedOption)
-    print('1. $100')
-    print('2. $500')
-    print('3. $1000')
-         
-        
-    if(selected_option1 == 1):
-
-        print('you selected %s' % selected_option)
-
-    elif(selected_option == 2):
-        print('you selected %s' % selected_option)
-            
-    elif(selected_option == 3):
-        print('you selected %s' % selected_option)
-
-        
-    else:
-        print('Invalid option selected, please try again')
-
-         
-   
-def deposit_operation(selected_option):
-    print("Withdrawal Operation")
-    selected_option1 = int(input('How much would you like to Deposit'))
-    selected_option2 = int(input('please select an option'))
-    
-
-    print(selected_option)
-        
-    print('(1) $1000')
-    print('(2) $1500')
-    print('(3) $2000')
-
-    selected_option3 = int(input("please select an option"))
-
-    if(selected_option1 == 1):
-
-        print('you selected %s' % selected_option)
-
-    elif(selected_option == 2):
-        print('you selected %s' % selected_option)
-            
-    elif(selected_option == 3):
-        print('you selected %s' % selected_option)
-    
-    else:
-        print('Invalid option selected, please try again')
-
-    selected_option4 = int(input('Insert cash! Exit!'))
-     
-   
-def complaint():
-
-    selected_option1 = int(input('What issue would you like to report'))
-    selected_option2 = int(input('please select an option'))
-    selected_option3 = int(input('please select an option'))
-    selected_option4 = int(input('Thank you for contacting us! Exit!'))
-
-          
-    print(selected_option)   
-    print('1. I can not make a withdrawal')
-    print('2. I can not make a deposit')
-    
-    selected_option3 = int(input('please select an option'))
-
-    if(selected_option1 == 1):
-        print('you selected %s' % selected_option)
-
-    elif(selected_option == 2):
-        print('you selected %s' % selected_option)
-              
-    else:
-        print('Invalid option selected, please try again')
-
-    selected_option4 = int(input('Thank you for contacting us! Exit!'))
-
-def generationAccountNumber():
-    return random.randrange(1111111111,9999999999)
+def balance(user_details):
+    get_current_balance(user_details)
+    print("Your balance is %s." % (user_details[4]))
 
 
 def set_current_balance(user_details, balance):
-    user_details[4] = balance
+    return user_details[4] = balance
 
 
 def get_current_balance(user_details):
-    return user_details[4]
-    
-def logout():
-    login()
+    return user_details[4]  
 
+def withdrawal_operation(user_details, account_number_from_user):
+    amount_to_withdrawal = int(input("How much would you like to withdraw? \n"))
+    current_user_balance = get_current_balance(user_details)
+    updated_balance = int(current_user_balance) - amount_to_withdrawal
+
+    set_current_balance(user_details, updated_balance)
+    database.update_user_record( account_number_from_user, user_details )
+    database.update_auth_session( account_number_from_user, user_details )
+    print(".git\Take your cash \n")
+
+def deposit_operation(user_details, account_number_from_user):
+    amount_to_deposit = int(input("How much would you like to deposit? \n"))
+    current_user_balance = get_current_balance(user_details)
+    updated_balance = int(current_user_balance) + amount_to_deposit
+
+    set_current_balance(user_details, updated_balance)
+    database.update_user_record( account_number_from_user, user_details )
+    database.update_auth_session( account_number_from_user, user_details )
+    print(".git\Your current balance is %s" % updated_balance)
+
+def complaint():
+    input("What issue would you like to report? \n')
+    print("Thank you for contacting us")
+
+def invalidOption():
+    print("invalid option selected please try again")
+    main_options(user_details, account_number_from_user)
+
+def logout(account_number_from_user ):
+    database.delete(account_number_from_user)
+    login()
 
 
 
@@ -231,5 +170,3 @@ def logout():
 
 #### ACTUAL BANKING SYSTEM ####
 
-init() 
-generationAccountNumber()

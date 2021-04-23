@@ -5,22 +5,33 @@ def account_number_validation(account_number):
     if account_number:
        
        
-           try:
-               int(account_number)
+        try:
+            int(account_number)
 
-               if len(str(account_number)) == 10:
-
-                   return True 
-            except ValueError
+            if len(str(account_number)) == 10:
+                return True 
+        except ValueError:
                 return False
 
-            except TypeError
-                return False 
+            #except TypeError
+                #return False 
         return False
 
 
 
-def validate_registration_input(input)
-
+def validate_registration_input(input):
+    print("Welcome")
     # check if it's a list 
     # check each item in the list and be sure they are the correct data types
+    if registration:
+        try:
+            input(user_account_details(registration))
+
+            if user_details == list:
+                return True
+
+        except TypeError:
+                return False
+
+        return False
+    
